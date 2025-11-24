@@ -1,20 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataAccessLayer.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DataAccessLayer
 {
     public static class DependencyInjection
     {
-        // Extension methods for setting up data access layer dependencies would go here
-        public static IServiceCollection AddDataAccessLayer(this IServiceCollection services)
+        public static IServiceCollection AddDataAccessLayer(this IServiceCollection services, IConfiguration configuration)
         {
-            // Example: services.AddDbContext<MyDbContext>(options => ...);
-            // Add Data Access Layer services here to IOC Container
+            //TO DO: Add Data Access Layer services into the IoC container
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseMySQL(configuration.GetConnectionString("DefaultConnection")!);
+            });
             return services;
         }
     }
