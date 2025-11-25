@@ -2,7 +2,6 @@
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.ServiceContracts;
 using DataAccessLayer.Entities;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.RepositoryContracts;
 using FluentValidation;
 using FluentValidation.Results;
@@ -15,12 +14,12 @@ namespace BusinessLogicLayer.Services
         private readonly IValidator<ProductAddRequest> _productAddValidator;
         private readonly IValidator<ProductUpdateRequest> _productUpdateRequestValidator;
         private readonly IMapper _mapper;
-        private readonly ProductsRepository _productRepository;
+        private readonly IProductsRepository _productRepository;
 
         public ProductsService(IValidator<ProductAddRequest> productAddValidator
             ,IValidator<ProductUpdateRequest> productUpdateRequestValidator
             ,IMapper mapper
-            ,ProductsRepository productRepository
+            ,IProductsRepository productRepository
             )
         {
             this._productAddValidator = productAddValidator;

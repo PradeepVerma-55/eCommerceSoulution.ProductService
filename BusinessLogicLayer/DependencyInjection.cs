@@ -1,10 +1,11 @@
 ﻿using BusinessLogicLayer.Mappers;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Validators;
+using DataAccessLayer.Repositories;
+using DataAccessLayer.RepositoryContracts;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace BusinessLogicLayer
 {
@@ -15,6 +16,17 @@ namespace BusinessLogicLayer
                  // Add Business Logic Layer services here to IOC Container
 
                  services.AddAutoMapper(typeof(ProductAddRequestToProductMappingProfile).Assembly);
+
+                 // Register Products service that implements business logic
+                 services.AddScoped<ServiceContracts.IProductsService, ProductsService>();
+
+                 // Register repository interface to its implementation
+                 services.AddScoped<IProductsRepository, ProductsRepository>();
+
+                 // Register validators if FluentValidation is used
+                 // This will scan the current assembly for any validators
+                 services.AddValidatorsFromAssembly(typeof(ProductAddRequestValidator).Assembly);
+
                  return services;
             }
     }
