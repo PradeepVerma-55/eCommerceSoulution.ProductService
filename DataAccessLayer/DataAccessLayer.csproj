@@ -12,9 +12,4 @@
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="RepositoryContracts\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
