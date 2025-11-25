@@ -14,7 +14,7 @@ namespace BusinessLogicLayer.ServiceContracts
         /// <summary>
         /// Retrieves the list of products from the prodcts repository
         /// </summary>
-        /// <returns>Returns list of ProductResponse objects</returns>
+        /// <returns>Returns list of ProductResponse objects to retrive the products.</returns>
         Task<List<ProductResponse?>> GetProducts();
 
 
