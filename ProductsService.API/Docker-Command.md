@@ -134,10 +134,6 @@ docker rm -f mysql-products
 
 Then run the MySQL container again.
 
----
-
-## 🧱 **7. Folder Structure Recommendation**
-
 ```
 
 
