@@ -56,10 +56,85 @@ Adjust the project names above if your EF Core DbContext is located elsewhere.
 
 ## Docker (optional)
 
-You can containerize the API by adding a `Dockerfile` to `ProductsService.API/` and building an image:
+You can containerize the API by adding a `Dockerfile` to `ProductsService.API/` and building an image.
 
-- Build image: `docker build -t products-service -f ProductsService.API/Dockerfile .`
-- Run container: `docker run -e "ASPNETCORE_ENVIRONMENT=Production" -p 5000:80 products-service`
+- Build image (example):
+  - `docker build -t products-service -f ProductsService.API/Dockerfile .`
+  - `docker run -e "ASPNETCORE_ENVIRONMENT=Production" -p 5000:80 products-service`
+
+  ```bash
+  # Build and run commands requested for this workspace (from repo root)
+  docker build -t my-dotnet-app:initial -f ./ProductsService.API/Dockerfile .
+  docker run -p 8080:8080 -p 8081:8081 my-dotnet-app:initial
+  ```
+
+- Pull and run a remote image (example):
+  ```bash
+  docker pull 900325302/ecommerce-products-microservice:v1.0
+  docker run -p 8080:8080 900325302/ecommerce-products-microservice:v1.0
+  ```
+
+Note: adjust ports and environment variables as needed.
+
+## Commands (collected from development history)
+
+Below are valid and commonly used commands related to this project. Review and adjust paths/arguments as needed for your environment.
+
+### .NET CLI
+
+```bash
+dotnet restore
+dotnet build
+dotnet run --project ProductsService.API/ProductsService.API.csproj
+# EF Core (if applicable)
+dotnet ef migrations add <Name> --project DataAccessLayer --startup-project ProductsService.API
+dotnet ef database update --project DataAccessLayer --startup-project ProductsService.API
+```
+
+### Docker
+
+```bash
+# Build and run image (examples)
+docker build -t products-service -f ProductsService.API/Dockerfile .
+docker run -e "ASPNETCORE_ENVIRONMENT=Production" -p 5000:80 products-service
+
+# Workspace-specific builds from history (examples)
+docker build -t my-dotnet-app:initial -f .\ProductsService.API\Dockerfile .
+docker run -p 8080:8080 -p 8081:8081 my-dotnet-app:initial
+
+docker build -t product-service-image:v1.0 -f ProductService.API/Dockerfile .
+docker build -t product-service:v1.0 -f ProductService.API/Dockerfile .
+docker build -t products-microservice:1.0 -f .\ProductsService.API\Dockerfile .
+
+# Tag, push, login, inspect images
+docker tag product-service:v1.0 ecommerce-product-service:v1.0
+docker tag product-service:v1.0 900325302/ecommerce-product-service:v1.0
+docker tag products-microservice:1.0 900325302/ecommerce-products-microservice:v1.0
+
+docker push 900325302/ecommerce-product-service:v1.0
+docker push 900325302/ecommerce-products-microservice:v1.0
+
+docker login
+docker images
+docker --ls
+```
+
+ docker build -t products-microservice:1.0 -f .\ProductsService.API\Dockerfile .
+ docker tag products-microservice:1.0 900325302/ecommerce-products-microservice:v1.0
+ docker push 900325302/ecommerce-products-microservice:v1.0
+
+### Other useful commands
+
+```bash
+# View docker images and tags
+docker images
+
+# General system/IDE
+ls
+cd <path>
+code .
+clear / cls
+```
 
 ## Testing
 

@@ -41,7 +41,11 @@ app.UseCors();
 
 //Swagger
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "eCommerce Product API v1");
+    c.RoutePrefix = string.Empty; // serve Swagger UI at app root
+});
 
 
 //Auth
