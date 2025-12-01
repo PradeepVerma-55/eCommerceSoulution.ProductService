@@ -21,8 +21,8 @@ public static class ProductAPIEndpoints
         app.MapGet("/api/products/search/product-id/{ProductID:guid}", async (IProductsService productsService, Guid ProductID) =>
         {
 
-            await Task.Delay(100);
-            throw new Exception("Simulated exception for testing purposes for Fallback");
+            //await Task.Delay(100);
+            //throw new Exception("Simulated exception for testing purposes for Fallback");
 
             ProductResponse? product = await productsService.GetProductByCondition(temp => temp.ProductID == ProductID);
             
