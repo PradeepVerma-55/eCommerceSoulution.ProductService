@@ -20,7 +20,17 @@ public static class ProductAPIEndpoints
         //GET /api/products/search/product-id/00000000-0000-0000-0000-000000000000
         app.MapGet("/api/products/search/product-id/{ProductID:guid}", async (IProductsService productsService, Guid ProductID) =>
         {
+
+            await Task.Delay(100);
+            throw new Exception("Simulated exception for testing purposes for Fallback");
+
             ProductResponse? product = await productsService.GetProductByCondition(temp => temp.ProductID == ProductID);
+            
+            if (product == null)
+            {
+                return Results.NotFound(new { message = $"Product with ID {ProductID} not found" });
+            }
+            
             return Results.Ok(product);
         });
 
