@@ -37,7 +37,9 @@ namespace BusinessLogicLayer.RabbitMQ
 
             //Declare Queue
             //Create exchange
-            string exchangeName = "products.exchange";
+            //string exchangeName = "products.exchange";
+
+            string exchangeName = _configuration["RabbitMQ_Products_Exchange"]!;
             _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Direct, durable: true);
 
             //Publish message routingKey => queueName
