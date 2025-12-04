@@ -46,7 +46,8 @@ namespace BusinessLogicLayer.RabbitMQ
 
             _channel.BasicPublish(exchange: exchangeName, routingKey: routingKey, basicProperties: null, body: messageBodyInBytes);
 
-        }
+
+        } 
         public void Dispose()
         {
             _channel.Dispose();

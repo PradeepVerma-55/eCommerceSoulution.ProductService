@@ -6,6 +6,7 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.RepositoryContracts;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
 namespace BusinessLogicLayer.Services
@@ -17,12 +18,14 @@ namespace BusinessLogicLayer.Services
         private readonly IMapper _mapper;
         private readonly IProductsRepository _productRepository;
         private readonly IRabbitMQPublisher _rabbitMQPublisher;
+        private readonly ILogger<ProductsService> _logger;
 
         public ProductsService(IValidator<ProductAddRequest> productAddValidator
             ,IValidator<ProductUpdateRequest> productUpdateRequestValidator
             ,IMapper mapper
             ,IProductsRepository productRepository
             ,IRabbitMQPublisher rabbitMQPublisher
+            ,ILogger<ProductsService> logger
             )
         {
             this._productAddValidator = productAddValidator;
@@ -30,6 +33,7 @@ namespace BusinessLogicLayer.Services
             this._mapper = mapper;
             this._productRepository = productRepository;
             this._rabbitMQPublisher = rabbitMQPublisher;
+            this._logger = logger;
         }
         public async Task<ProductResponse?> AddProduct(ProductAddRequest productAddRequest)
         {
@@ -127,11 +131,13 @@ namespace BusinessLogicLayer.Services
             Product? updatedProduct = await _productRepository.UpdateProduct(product);
 
             //Publish product.update.name message to the exchange
+            _logger.LogInformation("isProductNameChanged: {IsProductNameChanged}", isProductNameChanged);
             if (isProductNameChanged)
             {
                 string routingKey = "product.update.name";
                 var message = new ProductNameUpdateMessage(product.ProductID, product.ProductName);
                 _rabbitMQPublisher.Publish<ProductNameUpdateMessage>(routingKey, message);
+                _logger.LogInformation("Published ProductNameUpdateMessage to RabbitMQ for ProductID: {ProductID}", product.ProductID);
             }
 
 
